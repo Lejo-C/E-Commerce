@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import {useState, useEffect} from "react";
+
+
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(()=>{
+    axios.get("http://localhost:5000/api/products/getProduct")
+    .then (res=>{
+      console.log(res.data)
+      setProducts(res.data)
+    })
+    .catch(error=>console.log(error.message))
+  },[])
   return (
     <div className="flex flex-col min-h-screen">
     <nav className="sticky top-0 z-20 w-full border-b border-gray-500 bg-white flex justify-end">
@@ -19,6 +33,20 @@ const Home = () => {
         <Link to="/cart" className="px-4 py-2 rounded-full font-bold text-black bg-white/20 backdrop-blur-md border border-white/30 transition hover:bg-black/10 hover:-translate-y-0.5">Cart</Link>
       </div>
     </nav>
+
+    <div className="flex flex-col min-h-screen">
+      <div>
+        {products.map(product=>(
+          <div key={product._id}>
+            <h1>{product.name}</h1>
+            <p>{product.description}</p>
+            <p>{product.price}</p>
+            <p>{product.stock}</p>
+            <p>{product.image}</p>
+            </div>
+        ))}
+      </div>
+    </div>
     <footer className="mt-auto mb-8 ml-4">
       <div>
         
