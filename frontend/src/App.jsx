@@ -9,14 +9,18 @@ import ProductDetails from './Components/ProductDetails';
 import Signup from "./Signup";
 import Login from "./Login";
 import DashBoard from './Merchant/DashBoard';
+import Nav from "./Components/Nav";
 function App() {
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const hideNav = ["/", "/login", "/signup"].includes(window.location.pathname);
   return (
     <>
       <div>
+        {!hideNav && <Nav setSearchQuery={setSearchQuery}/>}
           <Routes>
             <Route path="/" element={<LandingPage/>} />
-            <Route path="/home" element={<Home/>}/>
+            <Route path="/home" element={<Home searchQuery={searchQuery}/>}/>
             <Route path="/orders" element={<Orders/>}/>
             <Route path="/cart" element={<Cart/>}/>
             <Route path="/product/:id" element={<ProductDetails/>}/>

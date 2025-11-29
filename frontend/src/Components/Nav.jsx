@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-const Nav = () => {
+const Nav = ({setSearchQuery}) => {
     return (
         
             <nav className="sticky top-0 z-20 w-full border-b border-gray-500 bg-white flex justify-end">
@@ -9,7 +9,7 @@ const Nav = () => {
       </div>
       
       <div className="flex items-center py-4 px-4 mx-auto">
-        <input type="text" placeholder="Search" className="w-50px bg-black/10 w-100 h-10 text-center rounded-full "/>
+        <input type="text" placeholder="Search" className="w-50px bg-black/10 w-100 h-10 text-center rounded-full " onChange={(e) => setSearchQuery(e.target.value)}/>
       </div>
 
       <div className="flex justify-end py-4 px-4">
