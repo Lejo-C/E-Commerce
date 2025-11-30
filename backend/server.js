@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import userRoutes from "./Routes/userRoutes.js";
 import productRoutes from "./Routes/products.js";
 import authMiddleware from "./Middleware/auth.js";
+import cartRoutes from "./Routes/cart.js";
 dotenv.config();
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/products", authMiddleware,productRoutes);
+app.use("/api/cart", authMiddleware, cartRoutes);
 
 // Connect DB
 // Connect DB

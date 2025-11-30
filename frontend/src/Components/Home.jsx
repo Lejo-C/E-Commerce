@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
-
+  const [addCart, setAddCart] = useState(false);
   const filteredProducts = products.filter(p =>
     (p.name ?? "").toLowerCase().includes((searchQuery ?? "").toLowerCase())
   );
@@ -19,15 +19,32 @@ const Home = ({ searchQuery }) => {
       .catch(error => console.log(error.message));
   }, []);
 
+ const handleAddToCart = (product) => {
+  const payLoad = { 
+    productId: product._id, 
+    quantity: 1, 
+    price: product.price, 
+    name: product.name, 
+    image: product.image 
+  };
+
+  axios.post("http://localhost:5000/api/cart/addCart", payLoad, { withCredentials: true })
+    .then(res => {
+      console.log("Product added to cart:", res.data);
+    })
+    .catch(error => {
+      console.error("Error adding product to cart:", error);
+    });
+};
+
+
   return (
     <div className="flex flex-col min-h-screen mt-10">
       <div className="grid grid-cols-4 gap-5 ml-10 mr-10">
         {filteredProducts.map(product => (
+          <div className="max-w-sm rounded-md overflow-hidden shadow-lg bg-white p-4 hover:scale-105 transition" key={product._id}>
           <Link
-            to={`/product/${product._id}`}
-            key={product._id}
-            className="max-w-sm rounded overflow-hidden shadow-lg bg-white p-4 hover:scale-105 transition"
-          >
+            to={`/product/${product._id}`}>
             <img
               src={product.image}
               alt={product.name}
@@ -37,15 +54,18 @@ const Home = ({ searchQuery }) => {
             <p className="text-gray-600">{product.description}</p>
             <p className="text-green-600 font-semibold">${product.price}</p>
             <p className="text-sm text-gray-500">Stock: {product.stock}</p>
+            </Link>
             <div className="flex gap-4 mt-5">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow">
+              
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg shadow" onClick={()=>handleAddToCart(product)} >
                 Add to Cart
               </button>
               <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow">
                 Buy Now
               </button>
             </div>
-          </Link>
+          
+          </div>
         ))}
       </div>
     </div>
