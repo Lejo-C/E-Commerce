@@ -16,7 +16,7 @@ function App() {
   const hideNav = ["/", "/login", "/signup"].includes(window.location.pathname);
   return (
     <>
-      <div>
+      <div className='mr-20 ml-20'>
         {!hideNav && <Nav setSearchQuery={setSearchQuery}/>}
           <Routes>
             <Route path="/" element={<LandingPage/>} />

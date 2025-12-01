@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 const Nav = ({setSearchQuery}) => {
     return (
-        
-            <nav className="sticky top-0 z-20 w-full border-b border-gray-500 bg-white flex justify-end">
+
+      <nav className="sticky top-0 z-20 w-full border border-gray-500 bg-white flex justify-end rounded-full mt-10">
       
       <div className="flex items-center font-bold px-4">
         <h1>LOGO</h1>
