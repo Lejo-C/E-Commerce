@@ -1,0 +1,24 @@
+import { Link } from "react-router-dom";
+const Nav = ({setSearchQuery}) => {
+    return (
+
+      <nav className="sticky top-0 z-20 w-full border border-gray-500 bg-white flex justify-end rounded-full mt-10">
+      
+      <div className="flex items-center font-bold px-4">
+        <h1>LOGO</h1>
+      </div>
+      
+      <div className="flex items-center py-4 px-4 mx-auto">
+        <input type="text" placeholder="Search" className="w-50px bg-black/10 w-100 h-10 text-center rounded-full " onChange={(e) => setSearchQuery(e.target.value)}/>
+      </div>
+
+      <div className="flex justify-end py-4 px-4">
+        <Link to="/merchant/orders" className="px-4 py-2 rounded-full font-bold text-black bg-white/20 backdrop-blur-md border border-white/30 transition hover:bg-black/10 hover:-translate-y-0.5">Orders</Link>
+        <Link to="/merchant-dashboard" className="px-4 py-2 rounded-full font-bold text-black bg-white/20 backdrop-blur-md border border-white/30 transition hover:bg-black/10 hover:-translate-y-0.5">Dashboard</Link>
+      </div>
+    </nav>
+        
+    );
+};
+
+export default Nav;

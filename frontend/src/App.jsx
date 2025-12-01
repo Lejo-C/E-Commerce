@@ -10,10 +10,13 @@ import Signup from "./Signup";
 import Login from "./Login";
 import DashBoard from './Merchant/DashBoard';
 import Nav from "./Components/Nav";
+import BuyProducts from './Components/BuyProducts';
+import OrderDetails from './Components/OrderDetails';
+import MerchantOrders from './Merchant/Order';
 function App() {
 
   const [searchQuery, setSearchQuery] = useState("");
-  const hideNav = ["/", "/login", "/signup"].includes(window.location.pathname);
+  const hideNav = ["/", "/login", "/signup","/merchant-dashboard","/merchant/orders"].includes(window.location.pathname);
   return (
     <>
       <div className='mr-20 ml-20'>
@@ -28,6 +31,9 @@ function App() {
             <Route path="/signup" element={<Signup/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/merchant-dashboard" element={<DashBoard/>}/>
+            <Route path="/buy-products" element={<BuyProducts/>}/>
+            <Route path="/order/:productId" element={<OrderDetails />} />
+            <Route path="/merchant/orders" element={<MerchantOrders />} />
           </Routes>
       </div>
     </>

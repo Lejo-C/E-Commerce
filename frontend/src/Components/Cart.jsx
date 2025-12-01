@@ -88,7 +88,7 @@ const Cart = () => {
         <ul className="space-y-4">
           {cart.products.map((item) => (
             <li
-              key={item._id || item.productId._id || item.productId} // ✅ safe fallback for unique key
+              key={item._id || item.productId._id || item.productId} 
               className="flex items-center justify-between border p-4 rounded-lg"
             >
               <div className="flex items-center gap-4">

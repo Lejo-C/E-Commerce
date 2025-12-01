@@ -1,22 +1,26 @@
 import express from "express";
-import Product from "../Models/products.js";  // ✅ Capital P
+import Product from "../Models/products.js";   // ✅ Product model
+import Order from "../Models/order.js";        // ✅ Import Order model
+import authMiddleware from "../Middleware/auth.js"; // ✅ Protect routes
 
 const router = express.Router();
 
-// Create product
-router.post("/createProduct", async (req, res) => {
-  const { name, description, price, stock, image } = req.body;
+// Create product (merchant only)
+router.post("/addProduct", authMiddleware, async (req, res) => {
   try {
+    const { name, description, price, stock, image } = req.body;
+
     const newProduct = new Product({
       name,
       description,
       price,
       stock,
-      image
+      image,
+      merchantId: req.user._id, // 👈 attach merchant ID from JWT
     });
-    const data = Array.isArray(newProduct) ? newProduct : [newProduct];
-    const product = await Product.insertMany(data);
-    res.status(201).json(product);
+
+    await newProduct.save();
+    res.status(201).json(newProduct);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -25,7 +29,7 @@ router.post("/createProduct", async (req, res) => {
 // Get all products
 router.get("/getProduct", async (req, res) => {
   try {
-    const products = await Product.find();   // ✅ use Product
+    const products = await Product.find();
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -35,7 +39,7 @@ router.get("/getProduct", async (req, res) => {
 // Get product by ID
 router.get("/getProduct/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id); // ✅ use Product
+    const product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -45,13 +49,13 @@ router.get("/getProduct/:id", async (req, res) => {
   }
 });
 
-//Delete product by ID
-router.delete("/deleteProduct/:id", async (req, res) => {
+// Delete product by ID (merchant only)
+router.delete("/deleteProduct/:id", authMiddleware, async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
 
     if (!product) {
-      return res.status(404).json({ message: "Product Not Found" }); // ✅ add return
+      return res.status(404).json({ message: "Product Not Found" });
     }
 
     res.status(200).json({ message: "Product Deleted Successfully" });
@@ -60,6 +64,27 @@ router.delete("/deleteProduct/:id", async (req, res) => {
   }
 });
 
+// Get merchant's orders
+router.get("/merchantOrders", authMiddleware, async (req, res) => {
+  try {
+    const orders = await Order.find({ merchantId: req.user._id })
+      .populate("productId")
+      .populate("userId", "name email"); // buyer info
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// In products.js
+router.get("/merchantProducts", authMiddleware, async (req, res) => {
+  try {
+    const products = await Product.find({ merchantId: req.user._id });
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 export default router;

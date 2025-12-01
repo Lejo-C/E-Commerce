@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   // Filter products by search query
   const filteredProducts = products.filter(p =>
     (p.name ?? "").toLowerCase().includes((searchQuery ?? "").toLowerCase())
@@ -49,6 +49,9 @@ const Home = ({ searchQuery }) => {
     }
   };
 
+   const handleBuyNow = (product) => {
+    navigate(`/order/${product._id}`, { state: { product } });
+  };
   return (
     <div className="flex flex-col min-h-screen mt-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -76,7 +79,7 @@ const Home = ({ searchQuery }) => {
               >
                 Add to Cart
               </button>
-              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow">
+              <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow" onClick={() => handleBuyNow(product)}>
                 Buy Now
               </button>
             </div>
