@@ -14,7 +14,7 @@ import buyProductRoutes from "./Routes/buyProduct.js";
 
 dotenv.config();
 const app = express();
-
+const buildPath = path.join(__dirname, "../frontend/build");
 const corsOptions = {
   origin: "http://localhost:5173",   // your frontend dev URL
   credentials: true,                 // allow cookies/authorization headers
@@ -27,6 +27,7 @@ const isDev = process.env.NODE_ENV !== "production";
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(cookies());
+app.use(express.static(buildPath));
 app.use(express.json());
 app.use((err, req, res, next) => {
   console.error(err.stack);
