@@ -52,7 +52,7 @@ connectDB();
 
 // ---------- Serve React build in production ----------
 if (!isDev) {
-  const buildPath = path.join(__dirname, "../frontend/build");
+  const buildPath = path.join(__dirname, "../frontend/dist");
   app.use(express.static(buildPath));
 
   // SPA fallback: serve index.html for non-API routes
