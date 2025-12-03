@@ -55,46 +55,70 @@ router.post('/addCart', authMiddleware, async (req, res) => {
 // Get cart
 router.get('/getCart', authMiddleware, async (req, res) => {
   try {
-    const userCart = await cart
-      .findOne({ userId: req.user._id })
-      .populate('products.productId');
+    const userCart = await cart.findOne({ userId: req.user._id });
 
     if (!userCart) {
       return res.status(404).json({ message: 'Cart not found' });
     }
 
     res.status(200).json(userCart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update quantity of a product in cart
+router.put("/updateCart/:productId", authMiddleware, async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const userCart = await cart.findOne({ userId: req.user._id });
+    if (!userCart) return res.status(404).json({ message: "Cart not found" });
+
+    const item = userCart.products.find(
+      (p) => p.productId.toString() === req.params.productId
+    );
+    if (!item) return res.status(404).json({ message: "Item not found in cart" });
+
+    item.quantity = quantity;
+    await userCart.save();
+
+    res.json(userCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 // Remove product from cart
-router.delete('/removeFromCart', authMiddleware, async (req, res) => {
-  const userId = req.user._id;
-  const { productId } = req.body;
-
+router.delete("/removeCart/:productId", authMiddleware, async (req, res) => {
   try {
-    const userCart = await cart.findOne({ userId });
-    if (!userCart) {
-      return res.status(404).json({ message: 'Cart not found' });
-    }
+    const userCart = await cart.findOne({ userId: req.user._id });
+    if (!userCart) return res.status(404).json({ message: "Cart not found" });
 
-    const productIndex = userCart.products.findIndex(
-      (p) => p.productId.toString() === productId
+    userCart.products = userCart.products.filter(
+      (p) => p.productId.toString() !== req.params.productId
     );
-
-    if (productIndex === -1) {
-      return res.status(404).json({ message: 'Product not found in cart' });
-    }
-
-    userCart.products.splice(productIndex, 1);
     await userCart.save();
 
-    res.status(200).json(userCart);
+    res.json(userCart);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Clear entire cart
+router.delete("/clearCart", authMiddleware, async (req, res) => {
+  try {
+    const userCart = await cart.findOne({ userId: req.user._id });
+    if (!userCart) return res.status(404).json({ message: "Cart not found" });
+
+    userCart.products = [];
+    await userCart.save();
+
+    res.json({ message: "Cart cleared successfully", cart: userCart });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 
 export default router;

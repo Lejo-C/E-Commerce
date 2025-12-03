@@ -64,6 +64,34 @@ router.delete("/deleteProduct/:id", authMiddleware, async (req, res) => {
   }
 });
 
+// Update product by ID (merchant only)
+router.put("/updateProduct/:id", authMiddleware, async (req, res) => {
+  try {
+    const { name, description, price, stock, image } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Check if the user is the owner of the product
+    if (product.merchantId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "Not authorized to update this product" });
+    }
+
+    product.name = name || product.name;
+    product.description = description || product.description;
+    product.price = price || product.price;
+    product.stock = stock || product.stock;
+    product.image = image || product.image;
+
+    const updatedProduct = await product.save();
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Get merchant's orders
 router.get("/merchantOrders", authMiddleware, async (req, res) => {
   try {

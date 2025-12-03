@@ -1,24 +1,89 @@
-import { Link } from "react-router-dom";
-const Nav = ({setSearchQuery}) => {
-    return (
+import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { TbLogout2 } from "react-icons/tb";
 
-      <nav className="sticky top-0 z-20 w-full border border-gray-500 bg-white flex justify-end rounded-full mt-10">
-      
-      <div className="flex items-center font-bold px-4">
-        <h1>LOGO</h1>
-      </div>
-      
-      <div className="flex items-center py-4 px-4 mx-auto">
-        <input type="text" placeholder="Search" className="w-50px bg-black/10 w-100 h-10 text-center rounded-full " onChange={(e) => setSearchQuery(e.target.value)}/>
-      </div>
+const MerchentNav = ({ setSearchQuery }) => {
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
-      <div className="flex justify-end py-4 px-4">
-        <Link to="/merchant/orders" className="px-4 py-2 rounded-full font-bold text-black bg-white/20 backdrop-blur-md border border-white/30 transition hover:bg-black/10 hover:-translate-y-0.5">Orders</Link>
-        <Link to="/merchant-dashboard" className="px-4 py-2 rounded-full font-bold text-black bg-white/20 backdrop-blur-md border border-white/30 transition hover:bg-black/10 hover:-translate-y-0.5">Dashboard</Link>
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login", { replace: true });
+  };
+
+  return (
+    <nav className="sticky top-4 z-50 px-4 mb-8">
+      <div className="container-custom mx-auto">
+        <div className="glass rounded-2xl px-6 py-4 flex items-center justify-between shadow-soft bg-slate-900 text-white">
+          {/* Logo */}
+          <Link to="/merchant-dashboard" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+              L
+            </div>
+            
+          </Link>
+
+          {/* Search Bar */}
+          {setSearchQuery && (
+            <div className="hidden md:flex flex-1 max-w-lg mx-8">
+              <div className="relative w-full group">
+                <input
+                  type="text"
+                  placeholder="Search inventory..."
+                  className="w-full px-6 py-3 bg-slate-800 border border-slate-700 rounded-full focus:ring-2 focus:ring-emerald-500/50 focus:bg-slate-700 transition-all duration-300 font-medium text-slate-200 placeholder-slate-500"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Links */}
+          <div className="flex items-center gap-2">
+            <Link
+              to="/merchant-dashboard"
+              className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${isActive('/merchant-dashboard')
+                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`}
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/merchant/orders"
+              className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${isActive('/merchant/orders')
+                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
+                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                }`}
+            >
+              Orders
+            </Link>
+            <button onClick={handleLogout} className="px-5 py-2.5 rounded-full font-bold text-red-600">
+                  <TbLogout2 />
+                </button>
+          </div>
+        </div>
+
+        {/* Mobile Search */}
+        {setSearchQuery && (
+          <div className="md:hidden mt-4">
+            <input
+              type="text"
+              placeholder="Search inventory..."
+              className="w-full px-6 py-3 bg-white border border-slate-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+        )}
       </div>
     </nav>
-        
-    );
+  );
 };
 
-export default Nav;
+export default MerchentNav;

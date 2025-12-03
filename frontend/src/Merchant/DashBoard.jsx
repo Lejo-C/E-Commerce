@@ -1,188 +1,124 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import MerchentNav from "./MerchentNav";
+
 const MerchantDashboard = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({
-    name: "",
-    description: "",
-    price: "",
-    stock: "",
-    image: "",
-  });
+  const navigate = useNavigate();
 
-  // Fetch products added by the merchant
-  useEffect(() => {
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/products/getProduct", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/merchantProducts`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         withCredentials: true,
       });
-
-      // ✅ Filter products by merchantId matching logged-in user
-      const merchantId = localStorage.getItem("merchantId"); // store this at login
-      const merchantProducts = res.data.filter(p => p.merchantId === merchantId);
-
-      setProducts(merchantProducts);
+      setProducts(res.data);
     } catch (err) {
-      console.error("❌ Error fetching products:", err.response?.data || err.message);
+      console.error("❌ Error fetching products:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  fetchProducts();
-}, []);
-
-  // Handle input change
-  const handleChange = (e) => {
-    setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
-  };
-
-  // Submit new product
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/products/addProduct",
-        newProduct,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          withCredentials: true,
-        }
-      );
-      console.log("✅ Product added:", res.data);
-      setShowModal(false);
-      setNewProduct({ name: "", description: "", price: "", stock: "", image: "" });
-      fetchProducts(); // refresh product list
-    } catch (err) {
-      console.error("❌ Error adding product:", err.response?.data || err.message);
-    }
-  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-        <nav>
-            <MerchentNav />
-        </nav>
-      <h1 className="text-3xl font-bold mb-6">📊 Merchant Dashboard</h1>
+    <div className="min-h-screen bg-slate-50 pb-12">
+      <MerchentNav />
 
-      {/* Products Section */}
-      <section className="mb-10">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">Products</h2>
+      <div className="container-custom mx-auto max-w-7xl px-4">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end mb-10 fade-in-scale">
+          <div>
+            <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Dashboard</h1>
+            <p className="text-slate-500 font-medium">Overview of your store's performance</p>
+          </div>
           <button
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
-            onClick={() => setShowModal(true)}
+            onClick={() => navigate("/merchant/add-product")}
+            className="mt-6 md:mt-0 px-8 py-3 bg-emerald-600 text-white rounded-full font-bold shadow-lg shadow-emerald-500/30 hover:bg-emerald-700 hover:shadow-emerald-500/50 transform hover:-translate-y-1 transition-all duration-300 flex items-center gap-2"
           >
-            + Add Product
+            <span className="text-xl">+</span> Add Product
           </button>
         </div>
 
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 fade-in-scale" style={{ animationDelay: '0.1s' }}>
+          <div className="bg-white p-6 rounded-3xl shadow-soft border border-slate-100 relative overflow-hidden group hover:shadow-md transition-all">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-indigo-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <h3 className="text-slate-500 font-bold mb-2 relative z-10">Total Products</h3>
+            <p className="text-4xl font-extrabold text-slate-900 relative z-10">{products.length}</p>
+          </div>
+          <div className="bg-white p-6 rounded-3xl shadow-soft border border-slate-100 relative overflow-hidden group hover:shadow-md transition-all">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-emerald-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <h3 className="text-slate-500 font-bold mb-2 relative z-10">Total Stock</h3>
+            <p className="text-4xl font-extrabold text-slate-900 relative z-10">
+              {products.reduce((acc, curr) => acc + (parseInt(curr.stock) || 0), 0)}
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-3xl shadow-soft border border-slate-100 relative overflow-hidden group hover:shadow-md transition-all">
+            <div className="absolute right-0 top-0 w-32 h-32 bg-violet-50 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <h3 className="text-slate-500 font-bold mb-2 relative z-10">Inventory Value</h3>
+            <p className="text-4xl font-extrabold text-slate-900 relative z-10">
+              ${products.reduce((acc, curr) => acc + ((parseInt(curr.price) || 0) * (parseInt(curr.stock) || 0)), 0).toLocaleString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <h2 className="text-2xl font-bold text-slate-900 mb-6">Your Products</h2>
         {loading ? (
-          <p>Loading products...</p>
+          <div className="flex justify-center py-20">
+            <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
         ) : products.length === 0 ? (
-          <p className="text-gray-600">No products added yet.</p>
+          <div className="text-center py-20 bg-white rounded-3xl shadow-soft border border-slate-100">
+            <div className="text-6xl mb-4">📦</div>
+            <h3 className="text-xl font-bold text-slate-800">No Products Added</h3>
+            <p className="text-slate-500 mb-6">Start building your inventory today.</p>
+            <button onClick={() => navigate("/merchant/add-product")} className="text-emerald-600 font-bold hover:underline">
+              Add your first product
+            </button>
+          </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {products.map((product, index) => (
               <div
                 key={product._id}
-                className="bg-white rounded-lg shadow-md p-4 border hover:shadow-lg transition"
+                className="bg-white rounded-3xl p-4 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 fade-in-scale"
+                style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-40 object-cover rounded-md"
-                />
-                <h3 className="text-lg font-bold mt-2">{product.name}</h3>
-                <p className="text-gray-600">{product.description}</p>
-                <p className="text-green-600 font-semibold mt-1">${product.price}</p>
-                <p className="text-sm text-gray-500">Stock: {product.stock}</p>
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-slate-100 mb-4 group">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                    Stock: {product.stock}
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-slate-900 line-clamp-1">{product.name}</h3>
+                    <p className="font-bold text-emerald-600">${product.price}</p>
+                  </div>
+                  <p className="text-slate-500 text-sm line-clamp-2 mb-4 h-10">{product.description}</p>
+                  <button
+                    onClick={() => navigate(`/merchant/edit-product/${product._id}`)}
+                    className="w-full py-2 rounded-xl bg-slate-50 text-slate-600 font-semibold hover:bg-slate-900 hover:text-white transition-colors text-sm"
+                  >
+                    Edit Details
+                  </button>
+                </div>
               </div>
             ))}
           </div>
         )}
-      </section>
-
-      {/* Add Product Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Add New Product</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Product Name"
-                value={newProduct.name}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                required
-              />
-              <textarea
-                name="description"
-                placeholder="Description"
-                value={newProduct.description}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                placeholder="Price"
-                value={newProduct.price}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                required
-              />
-              <input
-                type="number"
-                name="stock"
-                placeholder="Stock"
-                value={newProduct.stock}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                required
-              />
-              <input
-                type="text"
-                name="image"
-                placeholder="Image URL"
-                value={newProduct.image}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-              />
-
-              <div className="flex justify-end gap-4 mt-4">
-                <button
-                  type="button"
-                  className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
+      </div>
     </div>
   );
 };

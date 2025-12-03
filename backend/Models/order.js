@@ -11,6 +11,11 @@ const orderSchema = new mongoose.Schema(
     buyerEmail: { type: String },
     buyerPhone: { type: String },
     buyerAddress: { type: String },
+    status: {
+      type: String,
+      enum: ["Confirmed", "Shipped", "Delivered", "Canceled"],
+      default: "Confirmed"
+    },
   },
   { timestamps: true }
 );
