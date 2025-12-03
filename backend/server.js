@@ -5,18 +5,24 @@ import cookies from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
 import userRoutes from "./Routes/userRoutes.js";
 import productRoutes from "./Routes/products.js";
 import authMiddleware from "./Middleware/auth.js";
 import cartRoutes from "./Routes/cart.js";
 import buyProductRoutes from "./Routes/buyProduct.js";
 
+// Load environment variables
 dotenv.config();
+
+// Fix __dirname and __filename for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
-const buildPath = path.join(__dirname, "../frontend/build");
+
+// CORS options
 const corsOptions = {
-  origin: "http://localhost:5173",   // your frontend dev URL
+  origin: "http://localhost:5173",   // frontend dev URL
   credentials: true,                 // allow cookies/authorization headers
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -27,13 +33,13 @@ const isDev = process.env.NODE_ENV !== "production";
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(cookies());
-app.use(express.static(buildPath));
 app.use(express.json());
+
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Server error" });
 });
-
 
 // API routes
 app.use("/api/users", userRoutes);
@@ -45,9 +51,6 @@ app.use("/api/buyProduct", authMiddleware, buyProductRoutes);
 connectDB();
 
 // ---------- Serve React build in production ----------
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 if (!isDev) {
   const buildPath = path.join(__dirname, "../frontend/build");
   app.use(express.static(buildPath));
