@@ -5,6 +5,7 @@ import cookies from "cookie-parser";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+
 import userRoutes from "./Routes/userRoutes.js";
 import productRoutes from "./Routes/products.js";
 import authMiddleware from "./Middleware/auth.js";
@@ -52,7 +53,7 @@ connectDB();
 
 // ---------- Serve React build in production ----------
 if (!isDev) {
-  const buildPath = path.join(__dirname, "../frontend/dist");
+  const buildPath = path.join(__dirname, "../frontend/build");
   app.use(express.static(buildPath));
 
   // SPA fallback: serve index.html for non-API routes
