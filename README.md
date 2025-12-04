@@ -33,27 +33,39 @@ Deployment: Render (backend), Netlify (frontend)
 
 ⚙️ Installation & Setup
 1. Clone the repo
+
 bash
-git clone https://github.com/yourusername/ecommerce-mern.git
+git clone https://github.com/Repo_Url
+
 cd ecommerce-mern
-2. Backend setup
+
+3. Backend setup
+
 bash
 cd backend
+
 npm install
+
 Create a .env file:
 
 env
+
 PORT=5000
+
 MONGO_URI=your_mongodb_connection_string
+
 JWT_SECRET=your_jwt_secret
+
 Run backend:
 
 bash
 npm run dev
 
 3. Frontend setup
+
 bash
 cd frontend
+
 npm install
 Create a .env file:
 
@@ -75,8 +87,11 @@ Backend .env:
 
 env
 PORT=5000
+
 MONGO_URI=your_mongodb_connection_string
+
 JWT_SECRET=your_jwt_secret
+
 Frontend .env:
 
 env
