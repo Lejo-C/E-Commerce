@@ -31,23 +31,6 @@ Middleware: CORS, cookie‑parser
 
 Deployment: Render (backend), Netlify (frontend)
 
-📂 Project Structure
-
-├── backend
-│   ├── server.js          # Express server setup
-│   ├── Routes/            # API routes (users, products, cart, orders)
-│   ├── Controllers/       # Business logic
-│   ├── Middleware/        # Auth middleware
-│   └── DataBase/          # MongoDB connection
-│
-├── frontend
-│   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── pages/         # Page views
-│   │   └── context/       # State management
-│   └── vite.config.js
-│
-└── README.md
 ⚙️ Installation & Setup
 1. Clone the repo
 bash
