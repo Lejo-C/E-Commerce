@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { TbLogout2 } from "react-icons/tb";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const MerchentNav = ({ setSearchQuery }) => {
   const location = useLocation();
   const isActive = (path) => location.pathname === path;

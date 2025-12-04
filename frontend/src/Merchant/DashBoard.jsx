@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import MerchentNav from "./MerchentNav";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const MerchantDashboard = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const MerchantDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/merchantProducts`, {
+      const res = await axios.get(`${API_URL}/api/products/merchantProducts`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         withCredentials: true,
       });

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const BuyProducts = () => {
 
     const [buy, setBuy] = useState(null);
 
     useEffect(() => {
-        const fetchBuy = async () => {
+        const fetchBuy = async () => {      
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/buyProduct/buyProduct`, {
+                const res = await axios.get(`${API_URL}/api/buyProduct/buyProduct`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },

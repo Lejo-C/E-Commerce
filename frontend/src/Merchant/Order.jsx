@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MerchentNav from "./MerchentNav";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const MerchantOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +9,7 @@ const MerchantOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/merchantOrders`, {
+        const res = await axios.get(`${API_URL}/api/products/merchantOrders`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -28,7 +28,7 @@ const MerchantOrders = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/buyProduct/updateOrderStatus/${orderId}`,
+        `${API_URL}/api/buyProduct/updateOrderStatus/${orderId}`,
         { status: newStatus },
         {
           headers: {

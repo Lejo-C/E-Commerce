@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import MerchentNav from "./MerchentNav";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const ProductForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -27,7 +27,7 @@ const ProductForm = () => {
     const fetchProduct = async () => {
         try {
             setLoading(true);
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/getProduct/${id}`, {
+            const res = await axios.get(`${API_URL}/api/products/getProduct/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 withCredentials: true,
             });
@@ -66,13 +66,13 @@ const ProductForm = () => {
 
             if (isEditMode) {
                 await axios.put(
-                    `${import.meta.env.VITE_API_URL}/api/products/updateProduct/${id}`,
+                    `${API_URL}/api/products/updateProduct/${id}`,
                     formData,
                     config
                 );
             } else {
                 await axios.post(
-                    `${import.meta.env.VITE_API_URL}/api/products/addProduct`,
+                    `${API_URL}/api/products/addProduct`,
                     formData,
                     config
                 );

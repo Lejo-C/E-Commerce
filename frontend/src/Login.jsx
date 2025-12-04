@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,7 +12,7 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_API_URL}/api/users/login`,
+                `${API_URL}/api/users/login`,
                 formData,
                 { withCredentials: true }
             );

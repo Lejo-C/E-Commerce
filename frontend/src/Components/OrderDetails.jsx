@@ -1,7 +1,7 @@
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const OrderDetails = () => {
   const { productId } = useParams();
   const location = useLocation();
@@ -32,7 +32,7 @@ const OrderDetails = () => {
     try {
       if (cartItems) {
         const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/buyProduct/buyAll`,
+          `${API_URL}/api/buyProduct/buyAll`,
           {
             items: cartItems.map((item) => ({
               productId: typeof item.productId === 'object' ? item.productId._id : item.productId,
@@ -53,7 +53,7 @@ const OrderDetails = () => {
         );
 
         await axios.delete(
-          `${import.meta.env.VITE_API_URL}/api/cart/clearCart`,
+          `${API_URL}/api/cart/clearCart`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             withCredentials: true,
@@ -64,7 +64,7 @@ const OrderDetails = () => {
         navigate("/home");
       } else {
         await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/buyProduct/buyProduct`,
+          `${API_URL}/api/buyProduct/buyProduct`,
           {
             productId,
             quantity: 1,

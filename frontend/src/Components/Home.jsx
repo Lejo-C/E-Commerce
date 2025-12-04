@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_API_URL; 
 const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const Home = ({ searchQuery }) => {
       try {
         setLoading(true);
         // ✅ Corrected route name to match backend
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/products/getProduct`, {
+        const res = await axios.get(`${API_URL}/api/products/getProduct`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           withCredentials: true,
         });

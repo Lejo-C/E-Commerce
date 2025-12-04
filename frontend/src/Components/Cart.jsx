@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/cart/getCart`, {
+        const res = await axios.get(`${API_URL}/api/cart/getCart`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           withCredentials: true,
         });
@@ -28,7 +28,7 @@ const Cart = () => {
     try {
       const productId = typeof item.productId === 'object' ? item.productId._id : item.productId;
       await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/cart/updateCart/${productId}`,
+        `${API_URL}/api/cart/updateCart/${productId}`,
         { quantity: newQuantity },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, withCredentials: true }
       );
@@ -45,7 +45,7 @@ const Cart = () => {
     try {
       const productId = typeof item.productId === 'object' ? item.productId._id : item.productId;
       await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/cart/removeCart/${productId}`,
+        `${API_URL}/api/cart/removeCart/${productId}`,
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, withCredentials: true }
       );
       setCartItems(prev => prev.filter(p => {

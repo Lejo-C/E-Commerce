@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -10,7 +10,7 @@ const Orders = () => {
         const fetchOrders = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/buyProduct/myOrders`, {
+                const res = await axios.get(`${API_URL}/api/buyProduct/myOrders`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                     withCredentials: true,
                 });
@@ -64,7 +64,7 @@ const Orders = () => {
         if (!window.confirm("Are you sure you want to cancel this order?")) return;
 
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/api/buyProduct/cancelOrder/${orderId}`, {}, {
+            await axios.put(`${API_URL}/api/buyProduct/cancelOrder/${orderId}`, {}, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 withCredentials: true,
             });
