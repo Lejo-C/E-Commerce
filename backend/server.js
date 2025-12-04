@@ -18,20 +18,18 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Initialize Express app FIRST
 const app = express();
 
-// Middleware
+// CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",   // Vite dev
-  "http://localhost:5000",   // Express dev
-  "https://ecommerce.netlify.app", // Netlify prod
-  "https://e-commerce-frontend-gw9y.onrender.com" // Render static site
+  "http://localhost:5000",   // Express serving frontend locally
+  "https://e-commerce-7ep5.onrender.com" // Render deployment
 ];
 
 app.use(cors({
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, curl, etc.)
+    // Allow requests with no origin (like mobile apps, curl, Postman)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
@@ -42,30 +40,27 @@ app.use(cors({
   credentials: true,
 }));
 
+// Body parsing middleware
 app.use(cookies());
 app.use(express.json());
 
-// Routes
+// API Routes - BEFORE static file serving
 app.use("/api/users", userRoutes);
-app.use("/api/products", authMiddleware, productRoutes);
+app.use("/api/products", productRoutes);  // No global auth middleware - routes handle it individually
 app.use("/api/cart", authMiddleware, cartRoutes);
 app.use("/api/buyProduct", authMiddleware, buyProductRoutes);
 
-// Connect DB
+// Connect to MongoDB
 connectDB();
 
-// ✅ Serve React build only in production
-if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "../frontend/dist"); // Vite outputs to dist
-  app.use(express.static(buildPath));
+// Serve React build (production only)
+const buildPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(buildPath));
 
-  app.get("*", (req, res) => {
-    if (req.path.startsWith("/api")) {
-      return res.status(404).json({ message: "API route not found" });
-    }
-    res.sendFile(path.join(buildPath, "index.html"));
-  });
-}
+// SPA fallback - serve index.html for all non-API routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
