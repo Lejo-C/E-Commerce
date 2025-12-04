@@ -24,7 +24,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",   // Vite dev
   "http://localhost:5000",   // Express serving frontend locally
-  "https://e-commerce-7ep5.onrender.com" // Render deployment
+  "https://e-commerce-iet3.onrender.com" // Render deployment
 ];
 
 app.use(cors({
