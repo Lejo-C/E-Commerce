@@ -100,7 +100,7 @@ const Orders = () => {
         <div className="min-h-screen bg-slate-50 py-12 px-4">
             <div className="container-custom mx-auto max-w-5xl">
                 <div className="mb-10 fade-in-scale">
-                    <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Order History</h1>
+                    <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2">Order History</h1>
                     <p className="text-slate-500 font-medium">Track and manage your recent purchases</p>
                 </div>
 
@@ -125,17 +125,17 @@ const Orders = () => {
                             const status = group[0].status || "Confirmed";
 
                             return (
-                                <div key={idx} className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300 fade-in-scale" style={{ animationDelay: `${idx * 0.1}s` }}>
+                                <div key={idx} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300 fade-in-scale" style={{ animationDelay: `${idx * 0.1}s` }}>
                                     {/* Header */}
-                                    <div className="bg-slate-50/50 px-8 py-6 border-b border-slate-100 flex flex-wrap gap-6 justify-between items-center">
-                                        <div className="flex gap-8">
+                                    <div className="bg-slate-50/50 px-4 sm:px-8 py-4 sm:py-6 border-b border-slate-100 flex flex-wrap gap-4 sm:gap-6 justify-between items-center">
+                                        <div className="flex flex-wrap gap-4 sm:gap-8">
                                             <div>
                                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Order Placed</p>
-                                                <p className="font-semibold text-slate-700">{date}</p>
+                                                <p className="font-semibold text-slate-700 text-sm sm:text-base">{date}</p>
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Amount</p>
-                                                <p className="font-bold text-slate-900">${total.toFixed(2)}</p>
+                                                <p className="font-bold text-slate-900 text-sm sm:text-base">${total.toFixed(2)}</p>
                                             </div>
                                             <div>
                                                 <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Order ID</p>
@@ -150,11 +150,11 @@ const Orders = () => {
                                     </div>
 
                                     {/* Items */}
-                                    <div className="p-8">
-                                        <div className="space-y-8">
+                                    <div className="p-4 sm:p-8">
+                                        <div className="space-y-6 sm:space-y-8">
                                             {group.map((order) => (
-                                                <div key={order._id} className="flex flex-col sm:flex-row gap-6">
-                                                    <div className="relative w-full sm:w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
+                                                <div key={order._id} className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+                                                    <div className="relative w-full sm:w-24 h-24 flex-shrink-0 rounded-lg sm:rounded-xl overflow-hidden bg-slate-100 border border-slate-200">
                                                         {order.productId?.image ? (
                                                             <img src={order.productId.image} alt={order.productId.name} className="w-full h-full object-cover" />
                                                         ) : (
@@ -163,7 +163,7 @@ const Orders = () => {
                                                     </div>
 
                                                     <div className="flex-1 min-w-0">
-                                                        <h3 className="text-lg font-bold text-slate-800 mb-1 truncate">{order.productId?.name || "Product Unavailable"}</h3>
+                                                        <h3 className="text-base sm:text-lg font-bold text-slate-800 mb-1 truncate">{order.productId?.name || "Product Unavailable"}</h3>
                                                         <p className="text-slate-500 text-sm mb-3 line-clamp-2 max-w-2xl">{order.productId?.description}</p>
                                                         <div className="flex items-center gap-4 text-sm">
                                                             <span className="bg-slate-100 px-3 py-1 rounded-lg font-medium text-slate-600">Qty: {order.quantity}</span>

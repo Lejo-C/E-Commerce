@@ -65,7 +65,7 @@ const Cart = () => {
     <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="container-custom mx-auto max-w-6xl">
         <div className="mb-10 fade-in-scale">
-          <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Shopping Cart</h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-2">Shopping Cart</h1>
           <p className="text-slate-500 font-medium">
             You have <span className="text-indigo-600 font-bold">{cartItems.length} items</span> in your cart
           </p>
@@ -78,31 +78,31 @@ const Cart = () => {
               {cartItems.map((item, index) => (
                 <div
                   key={item._id}
-                  className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row gap-6 items-center hover:shadow-md transition-shadow duration-300 fade-in-scale"
+                  className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm border border-slate-100 flex flex-col sm:flex-row gap-4 sm:gap-6 items-center hover:shadow-md transition-shadow duration-300 fade-in-scale"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-32 h-32 object-cover rounded-2xl shadow-sm bg-slate-100"
+                    className="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-xl sm:rounded-2xl shadow-sm bg-slate-100"
                   />
 
                   <div className="flex-1 w-full text-center sm:text-left">
-                    <h3 className="text-xl font-bold text-slate-800 mb-1">{item.name}</h3>
-                    <p className="text-2xl font-bold text-indigo-600 mb-4">${item.price}</p>
+                    <h3 className="text-lg sm:text-xl font-bold text-slate-800 mb-1">{item.name}</h3>
+                    <p className="text-xl sm:text-2xl font-bold text-indigo-600 mb-3 sm:mb-4">${item.price}</p>
 
                     <div className="flex items-center justify-center sm:justify-start gap-4">
                       <div className="flex items-center bg-slate-100 rounded-xl p-1">
                         <button
                           onClick={() => updateQuantity(item, -1)}
-                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm hover:text-indigo-600 transition-colors"
+                          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm hover:text-indigo-600 transition-colors text-sm sm:text-base"
                         >
                           -
                         </button>
-                        <span className="w-10 text-center font-bold text-slate-700">{item.quantity}</span>
+                        <span className="w-8 sm:w-10 text-center font-bold text-slate-700 text-sm sm:text-base">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item, 1)}
-                          className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm hover:text-indigo-600 transition-colors"
+                          className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm hover:text-indigo-600 transition-colors text-sm sm:text-base"
                         >
                           +
                         </button>
@@ -128,8 +128,8 @@ const Cart = () => {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl p-8 shadow-soft sticky top-24 border border-slate-100">
-                <h2 className="text-2xl font-bold text-slate-800 mb-6">Order Summary</h2>
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-soft sticky top-20 sm:top-24 border border-slate-100">
+                <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-6">Order Summary</h2>
 
                 <div className="space-y-4 mb-8">
                   <div className="flex justify-between text-slate-600">
@@ -149,7 +149,7 @@ const Cart = () => {
 
                 <button
                   onClick={() => navigate("/order/all", { state: { cartItems } })}
-                  className="w-full py-4 rounded-2xl btn-gradient font-bold text-lg shadow-lg hover:shadow-indigo-500/30 transform transition-all duration-300"
+                  className="w-full py-3 sm:py-4 rounded-xl sm:rounded-2xl btn-gradient font-bold text-base sm:text-lg shadow-lg hover:shadow-indigo-500/30 transform transition-all duration-300"
                 >
                   Checkout Now
                 </button>
@@ -168,7 +168,7 @@ const Cart = () => {
             <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
               🛒
             </div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">Your Cart is Empty</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-2">Your Cart is Empty</h2>
             <p className="text-slate-500 mb-8">Looks like you haven't added anything yet.</p>
             <button
               onClick={() => navigate('/home')}

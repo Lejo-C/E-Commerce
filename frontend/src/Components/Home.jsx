@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const API_URL = import.meta.env.VITE_API_URL; 
+const API_URL = import.meta.env.VITE_API_URL;
 const Home = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,9 +63,9 @@ const Home = ({ searchQuery }) => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20 selection:bg-indigo-100 selection:text-indigo-700">
+    <div className="min-h-screen bg-slate-50 pb-12 sm:pb-20 selection:bg-indigo-100 selection:text-indigo-700">
       {/* Hero Section */}
-      <div className="relative bg-white mb-16 pt-16 pb-20 rounded-b-[3rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] overflow-hidden">
+      <div className="relative bg-white mb-12 sm:mb-16 pt-12 sm:pt-16 pb-16 sm:pb-20 rounded-b-[2rem] sm:rounded-b-[3rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] overflow-hidden">
         {/* Decorative Background */}
         <div className="absolute inset-0 bg-[radial-gradient(#e0e7ff_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.4]"></div>
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-violet-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
@@ -76,13 +76,13 @@ const Home = ({ searchQuery }) => {
             <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping"></span>
             New Collection 2025
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter text-slate-900 leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-6 sm:mb-8 tracking-tighter text-slate-900 leading-[1.1]">
             Discover Your <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 animate-gradient-x">
               Next Obsession
             </span>
           </h1>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium">
+          <p className="text-base sm:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed font-medium px-4">
             Explore our curated selection of premium products designed to elevate your lifestyle with style and substance.
           </p>
         </div>
@@ -91,11 +91,11 @@ const Home = ({ searchQuery }) => {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {filteredProducts.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-24 bg-white rounded-[2.5rem] shadow-sm border border-slate-100 text-center">
-            <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center text-4xl mb-6 text-indigo-500">
+          <div className="flex flex-col items-center justify-center py-16 sm:py-24 bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-sm border border-slate-100 text-center mx-4 sm:mx-0">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-indigo-50 rounded-full flex items-center justify-center text-3xl sm:text-4xl mb-6 text-indigo-500">
               🔍
             </div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">No Products Found</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-2 px-4">No Products Found</h2>
             <p className="text-slate-500 max-w-md mx-auto">
               We couldn't find any matches for "{searchQuery}". Try adjusting your search terms or browse our full collection.
             </p>
@@ -103,22 +103,22 @@ const Home = ({ searchQuery }) => {
         ) : (
           <>
             <div className="flex items-center justify-between mb-8 px-2">
-              <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Featured Items</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Featured Items</h2>
               <span className="text-sm font-medium text-slate-400">{filteredProducts.length} results</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
               {filteredProducts.map((product) => (
                 <div
                   key={product._id}
                   role="button"
                   tabIndex={0}
-                  className="group bg-white rounded-[2rem] p-4 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 transform hover:-translate-y-2 border border-slate-100 relative overflow-hidden"
+                  className="group bg-white rounded-[1.5rem] sm:rounded-[2rem] p-3 sm:p-4 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-500 transform hover:-translate-y-2 border border-slate-100 relative overflow-hidden"
                   onClick={() => navigate(`/product/${product._id}`)}
                   onKeyDown={(e) => e.key === "Enter" && navigate(`/product/${product._id}`)}
                 >
                   {/* Image */}
-                  <div className="relative aspect-square rounded-[1.5rem] overflow-hidden bg-slate-50 mb-5">
+                  <div className="relative aspect-square rounded-[1rem] sm:rounded-[1.5rem] overflow-hidden bg-slate-50 mb-4 sm:mb-5">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -136,10 +136,10 @@ const Home = ({ searchQuery }) => {
                   {/* Info */}
                   <div className="px-2">
                     <div className="flex justify-between items-center gap-4 mb-3">
-                      <h3 className="font-bold text-lg text-slate-900 leading-tight group-hover:text-indigo-600 transition-colors">
+                      <h3 className="font-bold text-base sm:text-lg text-slate-900 leading-tight group-hover:text-indigo-600 transition-colors">
                         {product.name}
                       </h3>
-                      <span className="shrink-0 font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full text-sm border border-indigo-100">
+                      <span className="shrink-0 font-bold text-indigo-700 bg-indigo-50 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm border border-indigo-100">
                         ${product.price}
                       </span>
                     </div>

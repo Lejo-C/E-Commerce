@@ -90,13 +90,13 @@ const ProductForm = () => {
             <MerchentNav />
 
             <div className="container-custom mx-auto max-w-3xl px-4 pt-10">
-                <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden">
-                    <div className="p-8 md:p-12">
+                <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden">
+                    <div className="p-6 sm:p-8 md:p-12">
                         <div className="mb-10 text-center">
-                            <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 tracking-tight">
+                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 mb-3 sm:mb-4 tracking-tight">
                                 {isEditMode ? "Edit Product" : "Add New Product"}
                             </h1>
-                            <p className="text-slate-500 font-medium text-lg">
+                            <p className="text-slate-500 font-medium text-base sm:text-lg">
                                 {isEditMode
                                     ? "Update your product details and inventory."
                                     : "Showcase your new item to the world."}
@@ -104,12 +104,12 @@ const ProductForm = () => {
                         </div>
 
                         {error && (
-                            <div className="mb-8 p-4 bg-red-50 border border-red-100 text-red-600 rounded-2xl text-center font-bold">
+                            <div className="mb-6 sm:mb-8 p-3 sm:p-4 bg-red-50 border border-red-100 text-red-600 rounded-xl sm:rounded-2xl text-center text-sm sm:text-base font-bold">
                                 {error}
                             </div>
                         )}
 
-                        <form onSubmit={handleSubmit} className="space-y-8">
+                        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">
@@ -120,7 +120,7 @@ const ProductForm = () => {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                                        className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 text-sm sm:text-base border-2 border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
                                         placeholder="e.g., Premium Wireless Headphones"
                                         required
                                     />
@@ -134,7 +134,7 @@ const ProductForm = () => {
                                         name="description"
                                         value={formData.description}
                                         onChange={handleChange}
-                                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-medium text-slate-900 outline-none placeholder:text-slate-400 min-h-[150px] resize-y"
+                                        className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 text-sm sm:text-base border-2 border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-medium text-slate-900 outline-none placeholder:text-slate-400 min-h-[120px] sm:min-h-[150px] resize-y"
                                         placeholder="Describe the features and benefits..."
                                         required
                                     />
@@ -154,7 +154,7 @@ const ProductForm = () => {
                                                 name="price"
                                                 value={formData.price}
                                                 onChange={handleChange}
-                                                className="w-full pl-10 pr-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                                                className="w-full pl-8 sm:pl-10 pr-4 sm:pr-6 py-3 sm:py-4 bg-slate-50 text-sm sm:text-base border-2 border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
                                                 placeholder="0.00"
                                                 required
                                             />
@@ -169,7 +169,7 @@ const ProductForm = () => {
                                             name="stock"
                                             value={formData.stock}
                                             onChange={handleChange}
-                                            className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                                            className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 text-sm sm:text-base border-2 border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
                                             placeholder="0"
                                             required
                                         />
@@ -185,11 +185,11 @@ const ProductForm = () => {
                                         name="image"
                                         value={formData.image}
                                         onChange={handleChange}
-                                        className="w-full px-6 py-4 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
+                                        className="w-full px-4 sm:px-6 py-3 sm:py-4 bg-slate-50 text-sm sm:text-base border-2 border-transparent rounded-xl sm:rounded-2xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all font-bold text-slate-900 outline-none placeholder:text-slate-400"
                                         placeholder="https://example.com/image.jpg"
                                     />
                                     {formData.image && (
-                                        <div className="mt-4 relative aspect-video rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
+                                        <div className="mt-3 sm:mt-4 relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
                                             <img
                                                 src={formData.image}
                                                 alt="Preview"
@@ -201,18 +201,18 @@ const ProductForm = () => {
                                 </div>
                             </div>
 
-                            <div className="flex gap-4 pt-6">
+                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
                                 <button
                                     type="button"
                                     onClick={() => navigate("/merchant-dashboard")}
-                                    className="flex-1 py-4 px-6 bg-slate-100 text-slate-700 rounded-2xl font-bold hover:bg-slate-200 transition-colors"
+                                    className="flex-1 py-3 sm:py-4 px-4 sm:px-6 bg-slate-100 text-slate-700 rounded-xl sm:rounded-2xl text-sm sm:text-base font-bold hover:bg-slate-200 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="flex-[2] py-4 px-6 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-2xl font-bold hover:shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                                    className="flex-[2] py-3 sm:py-4 px-4 sm:px-6 bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl sm:rounded-2xl text-sm sm:text-base font-bold hover:shadow-lg hover:shadow-indigo-500/30 transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                                 >
                                     {loading ? (
                                         <span className="flex items-center justify-center gap-2">

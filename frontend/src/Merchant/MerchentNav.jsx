@@ -14,15 +14,15 @@ const MerchentNav = ({ setSearchQuery }) => {
   };
 
   return (
-    <nav className="sticky top-4 z-50 px-4 mb-8">
+    <nav className="sticky top-2 sm:top-4 z-50 px-2 sm:px-4 mb-6 sm:mb-8">
       <div className="container-custom mx-auto">
-        <div className="glass rounded-2xl px-6 py-4 flex items-center justify-between shadow-soft bg-slate-900 text-white">
+        <div className="glass rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-soft bg-slate-900 text-white">
           {/* Logo */}
           <Link to="/merchant-dashboard" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-bold text-lg sm:text-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
               L
             </div>
-            
+
           </Link>
 
           {/* Search Bar */}
@@ -45,28 +45,28 @@ const MerchentNav = ({ setSearchQuery }) => {
           )}
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Link
               to="/merchant-dashboard"
-              className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${isActive('/merchant-dashboard')
-                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+              className={`hidden sm:block px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold transition-all duration-300 text-sm ${isActive('/merchant-dashboard')
+                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
+                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
             >
               Dashboard
             </Link>
             <Link
               to="/merchant/orders"
-              className={`px-5 py-2.5 rounded-full font-semibold transition-all duration-300 ${isActive('/merchant/orders')
-                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+              className={`hidden sm:block px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold transition-all duration-300 text-sm ${isActive('/merchant/orders')
+                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 transform scale-105'
+                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}
             >
               Orders
             </Link>
-            <button onClick={handleLogout} className="px-5 py-2.5 rounded-full font-bold text-red-600">
-                  <TbLogout2 />
-                </button>
+            <button onClick={handleLogout} className="px-3 sm:px-5 py-2 sm:py-2.5 rounded-full font-bold text-red-600 text-sm">
+              <TbLogout2 />
+            </button>
           </div>
         </div>
 
